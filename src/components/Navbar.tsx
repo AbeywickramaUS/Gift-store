@@ -1,90 +1,88 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { ArrowRight, Menu, Moon, Sun, X } from 'lucide-react';
 import { useTheme } from './ThemeProvider';
 import { NAV_ITEMS, SITE_NAME } from '@/lib/constants';
+import { Logo, Sparkle } from './brand/Brand';
+import CartButton from './shop/CartButton';
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  const iconBtn = 'flex size-10 items-center justify-center rounded-full text-brand transition-colors hover:bg-brand/8';
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-neutral-200 bg-white/80 backdrop-blur-lg dark:border-neutral-800 dark:bg-neutral-950/80">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-bold tracking-tight text-pink-600 dark:text-pink-400">
-            🎁 {SITE_NAME}
-          </span>
-        </Link>
+    <header className="sticky top-0 z-50">
+      {/* Service line: the three facts every buyer needs before a bank transfer */}
+      <p className="bg-[#7a1f3d] px-4 py-2 text-center text-[0.72rem] font-medium tracking-wide text-[#fff6ef] dark:bg-[#5c1730]">
+        Island-wide delivery Rs. 500 <Sparkle className="mx-2 inline size-2.5 -translate-y-px" /> Order on WhatsApp{' '}
+        <span className="hidden sm:inline"><Sparkle className="mx-2 inline size-2.5 -translate-y-px" /></span>
+        <span className="hidden sm:inline">Bank transfer, no Cash on Delivery</span>
+      </p>
 
-        {/* Desktop Navigation */}
-        <div className="hidden items-center gap-1 md:flex">
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100 hover:text-pink-600 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-pink-400"
+      <div className="border-b border-line bg-ground">
+        <nav className="mx-auto flex h-[4.25rem] max-w-7xl items-center gap-6 px-4 sm:px-6 lg:px-8" aria-label="Main">
+          <Link href="/" aria-label={`${SITE_NAME} home`} onClick={() => setOpen(false)} className="shrink-0">
+            <Logo />
+          </Link>
+
+          <ul className="mx-auto hidden items-center gap-1 lg:flex">
+            {NAV_ITEMS.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                  className={`relative px-3 py-2 text-[0.88rem] font-medium transition-colors after:absolute after:inset-x-3 after:-bottom-0.5 after:h-px after:origin-left after:bg-champagne after:transition-transform ${
+                    isActive(item.href) ? 'text-brand after:scale-x-100' : 'text-ink-2 after:scale-x-0 hover:text-brand hover:after:scale-x-100'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <div className="ml-auto flex items-center gap-1 lg:ml-0">
+            <button type="button" onClick={toggleTheme} className={iconBtn} aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}>
+              {theme === 'light' ? <Moon className="size-[1.15rem]" strokeWidth={1.6} aria-hidden /> : <Sun className="size-[1.15rem]" strokeWidth={1.6} aria-hidden />}
+            </button>
+            <CartButton />
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              className={`${iconBtn} lg:hidden`}
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
             >
-              {item.label}
-            </Link>
-          ))}
-        </div>
+              {open ? <X className="size-5" strokeWidth={1.6} aria-hidden /> : <Menu className="size-5" strokeWidth={1.6} aria-hidden />}
+            </button>
+          </div>
+        </nav>
 
-        {/* Right actions */}
-        <div className="flex items-center gap-2">
-          {/* Theme toggle */}
-          <button
-            onClick={toggleTheme}
-            className="rounded-lg p-2 text-neutral-600 transition-colors hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800"
-            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-          >
-            {theme === 'light' ? (
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-              </svg>
-            ) : (
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-            )}
-          </button>
-
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="rounded-lg p-2 text-neutral-600 transition-colors hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800 md:hidden"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? (
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </button>
-        </div>
+        {open && (
+          <ul id="mobile-menu" className="border-t border-line px-4 pb-5 pt-2 lg:hidden">
+            {NAV_ITEMS.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                  className="flex items-center justify-between border-b border-line py-4 font-display text-2xl text-brand"
+                >
+                  {item.label}
+                  <ArrowRight className="size-5 text-champagne" strokeWidth={1.5} aria-hidden />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-
-      {/* Mobile menu */}
-      {mobileMenuOpen && (
-        <div className="border-t border-neutral-200 bg-white px-4 py-3 dark:border-neutral-800 dark:bg-neutral-950 md:hidden">
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className="block rounded-lg px-3 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100 hover:text-pink-600 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-pink-400"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-      )}
-    </nav>
+    </header>
   );
 }

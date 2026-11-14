@@ -1,72 +1,223 @@
 @import "tailwindcss";
 
+/* dark: utilities follow the site's theme toggle (.dark on <html>),
+   not the device setting. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* =============================================
-   Gift Store — Global Styles
-   Tailwind v4 with dark mode support
+   GIFMIRA — design tokens (pinned by the brand kit)
+   Cream paper, burgundy Playfair, blush satin ribbon,
+   champagne hairlines, arched boutique windows.
    ============================================= */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ground: #fff6ef;    /* Cream */
+  --surface: #fffcf9;   /* card stock */
+  --tint: #fbe7ec;      /* blush wash behind windows */
+  --ink: #3a1a27;       /* Dark Ink: body text */
+  --ink-2: #66404f;     /* secondary text (≥4.5:1 on cream) */
+  --ink-3: #7e5868;     /* hints (≥4.5:1 on cream) */
+  --line: #ecd8d2;
+  --brand: #7a1f3d;     /* Burgundy: headings, primary buttons */
+  --on-brand: #fff6ef;
+  --rose: #e55e80;      /* bow/heart, decorative accents */
+  --rose-ink: #b8325a;  /* rose for small text (≥4.5:1) */
+  --blush: #f7b6c8;
+  --champagne: #d4af7f;
+  --wa: #128c4a;        /* WhatsApp actions (white text ≥4.5:1) */
+  --warn-bg: #fdf0dc;
+  --warn-ink: #7a4a07;
+  --danger: #b4233c;
+  color-scheme: light;
+}
+
+.dark {
+  --ground: #1f0f17;
+  --surface: #2a1520;
+  --tint: #3a1c2b;
+  --ink: #fff6ef;
+  --ink-2: #ead2da;
+  --ink-3: #c9a6b3;
+  --line: #4a2a3b;
+  --brand: #f7b6c8;     /* blush buttons and headings on the night ground */
+  --on-brand: #3a1a27;
+  --rose: #f07d9b;
+  --rose-ink: #f49ab2;
+  --blush: #f7b6c8;
+  --champagne: #dcbc8f;
+  --wa: #1fa95f;
+  --warn-bg: #3b2a10;
+  --warn-ink: #f6d39a;
+  --danger: #ff7d92;
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-tint: var(--tint);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-on-brand: var(--on-brand);
+  --color-rose: var(--rose);
+  --color-rose-ink: var(--rose-ink);
+  --color-blush: var(--blush);
+  --color-champagne: var(--champagne);
+  --color-wa: var(--wa);
+  --color-warn-bg: var(--warn-bg);
+  --color-warn-ink: var(--warn-ink);
+  --color-danger: var(--danger);
+  /* legacy aliases used by admin screens */
+  --color-accent: var(--rose-ink);
+  --color-sticker: var(--blush);
+
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
 }
 
-/* Dark mode via class (toggled by ThemeProvider) */
-.dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--ground);
+  color: var(--ink);
+  text-rendering: optimizeLegibility;
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+/* ---------- Browser surfaces, in the palette ---------- */
+::selection {
+  background: #f7b6c8;
+  color: #3a1a27;
 }
-
-/* Custom scrollbar */
+input,
+textarea {
+  caret-color: var(--rose);
+}
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--rose-ink);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(156, 163, 175, 0.5);
+  background-color: color-mix(in oklab, var(--brand) 30%, transparent);
   border-radius: 999px;
 }
-.dark ::-webkit-scrollbar-thumb {
-  background-color: rgba(75, 85, 99, 0.5);
+a {
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
 }
 
-/* Lazy image fade-in */
-img[loading="lazy"] {
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-img[loading="lazy"].loaded {
-  opacity: 1;
+/* ---------- Product illustrations, re-toned to the brand palette ----------
+   ProductArt draws with fixed hexes; these rules (CSS beats SVG
+   presentation attributes) map every fill to burgundy / rose / blush /
+   champagne / cream and thin the outlines to a fine burgundy line. */
+.art-luxe [stroke="#2a1b3d"] { stroke: #7a1f3d; }
+.art-luxe [stroke-width="3.5"] { stroke-width: 2.4px; }
+.art-luxe [stroke-width="2.5"] { stroke-width: 1.8px; }
+.art-luxe [fill="#2a1b3d"] { fill: #7a1f3d; }
+/* creams */
+.art-luxe :is([fill="#fff"], [fill="#ffffff"], [fill="#fffaf3"], [fill="#e6fff3"], [fill="#dff3ff"], [fill="#efe6ff"]) { fill: #fffaf5; }
+.art-luxe :is([stroke="#fff"], [stroke="#e6fff3"], [stroke="#fff3c4"], [stroke="#ffc2d4"], [stroke="#ffb3c6"], [stroke="#ffd3e4"]) { stroke: #fffaf5; }
+/* blush (soft) */
+.art-luxe :is([fill="#c4f1de"], [fill="#d8edb4"], [fill="#e3dcff"], [fill="#a8e6cf"], [fill="#ffc2d4"], [fill="#ffd3e4"], [fill="#c9b8ff"], [fill="#8ee3c8"], [fill="#cfd5e2"]) { fill: #f9d3dd; }
+/* blush */
+.art-luxe :is([fill="#ff9db4"], [fill="#ffb3c6"], [fill="#ff7fae"], [fill="#f2a7a0"], [fill="#4fc2a8"]) { fill: #f7b6c8; }
+/* rose */
+.art-luxe :is([fill="#ff6f91"], [fill="#ff5c8a"], [fill="#d9668c"], [fill="#6b70c9"], [fill="#ff6fa5"]) { fill: #e55e80; }
+.art-luxe [fill="#9bcf5a"] { fill: #e8cfa6; }
+.art-luxe [stroke="#d9668c"] { stroke: #e55e80; }
+/* deep rose / burgundy */
+.art-luxe :is([fill="#ff4d6d"], [fill="#d7263d"], [fill="#d6456b"]) { fill: #b8325a; }
+.art-luxe [fill="#3a3f8f"] { fill: #7a1f3d; }
+/* champagne */
+.art-luxe :is([fill="#f5b72e"], [fill="#f5c451"], [fill="#e9c35a"], [fill="#ffe17a"], [fill="#ffd84d"], [fill="#4fbf86"], [fill="#7cc06b"]) { fill: #d4af7f; }
+.art-luxe :is([fill="#fff3c4"], [fill="#fff6cf"], [fill="#7fd6a6"]) { fill: #ecd8b6; }
+.art-luxe [fill="#ffe7a8"] { fill: #f6e8d2; }
+.art-luxe [stroke="#e9c35a"] { stroke: #d4af7f; }
+.art-luxe [fill="#000"] { fill: #7a1f3d; }
+/* hoop ring colours are strokes */
+.art-luxe [stroke="#cfd5e2"] { stroke: #f2e6dd; }
+.art-luxe [stroke="#f2a7a0"] { stroke: #f7b6c8; }
+.art-luxe [stroke="#c9b8ff"] { stroke: #f7b6c8; }
+.art-luxe [stroke="#ff9db4"] { stroke: #f7b6c8; }
+
+/* ---------- Arched boutique window ---------- */
+.arch {
+  border-radius: 999px 999px 18px 18px;
 }
 
-/* Line clamp utility */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+/* Window lifts on hover/focus (signature interaction) */
+.window-lift {
+  transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 420ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.group:hover .window-lift,
+.group:focus-visible .window-lift {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 34px -22px rgb(122 31 61 / 0.45);
 }
+.tag-swing {
+  transform-origin: 50% 0;
+  transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .tag-swing,
+.group:focus-visible .tag-swing {
+  transform: rotate(-6deg);
+}
+
+/* Bag count: a little bow tie on add */
+@keyframes tie {
+  0% { transform: scale(1) rotate(0); }
+  35% { transform: scale(1.35) rotate(-8deg); }
+  65% { transform: scale(0.95) rotate(4deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+.bump {
+  animation: tie 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* A little bow floats up out of the bag when something is added */
+@keyframes bow-pop {
+  0% { transform: translate(-50%, 4px) scale(0.4) rotate(-12deg); opacity: 0; }
+  30% { transform: translate(-50%, -14px) scale(1.1) rotate(6deg); opacity: 1; }
+  70% { transform: translate(-50%, -18px) scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: translate(-50%, -24px) scale(0.9); opacity: 0; }
+}
+.bow-pop {
+  animation: bow-pop 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Gentle reveal for the hero box */
+@keyframes unwrap {
+  from { transform: translateY(14px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+.unwrap {
+  animation: unwrap 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .window-lift, .tag-swing, .bump, .unwrap { transition: none; animation: none; }
+  .bow-pop { display: none; }
+  .group:hover .window-lift, .group:focus-visible .window-lift, .group:hover .tag-swing { transform: none; }
+}
+
+/* Horizontal rails: hide scrollbar, keep scrolling */
+.rail {
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+}
+.rail::-webkit-scrollbar { display: none; }
+.rail > * { scroll-snap-align: start; }

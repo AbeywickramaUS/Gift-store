@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><title>GIFMIRA</title><rect width="64" height="64" fill="#FFF6EF"/><g transform="translate(3 0) scale(.245)"><g transform="translate(0 0) scale(1.00000)" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Heart emerging from the folded bow -->
+    <path d="M120 112 C98 65 52 49 47 82 C41 111 83 126 120 111 C157 126 199 111 193 82 C188 49 142 65 120 112" fill="none" stroke="#E55E80" stroke-width="15"/>
+    <path d="M109 136 C78 101 34 99 21 122 C9 147 42 166 101 144 Z" fill="#E55E80"/>
+    <path d="M131 136 C162 101 206 99 219 122 C231 147 198 166 139 144 Z" fill="#E55E80"/>
+    <path d="M104 150 C88 172 76 188 68 210 L94 202 L105 217 L117 155" fill="#E55E80"/>
+    <path d="M136 150 C152 172 164 188 172 210 L146 202 L135 217 L123 155" fill="#E55E80"/>
+    <rect x="107" y="129" width="26" height="29" rx="8" fill="#D4AF7F"/>
+    
+    </g></g></svg>

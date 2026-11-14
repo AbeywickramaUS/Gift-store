@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-14T12:00:00+05:30",
+  "title": "Design System: GIFMIRA",
+  "extensions": {
+    "colorMeta": {
+      "burgundy": {
+        "role": "primary",
+        "displayName": "Burgundy"
+      },
+      "rose": {
+        "role": "secondary",
+        "displayName": "Rose"
+      },
+      "rose-ink": {
+        "role": "secondary",
+        "displayName": "Rose Ink (text-safe)"
+      },
+      "blush": {
+        "role": "secondary",
+        "displayName": "Blush"
+      },
+      "champagne": {
+        "role": "tertiary",
+        "displayName": "Champagne (foil)"
+      },
+      "cream": {
+        "role": "neutral",
+        "displayName": "Cream"
+      },
+      "dark-ink": {
+        "role": "neutral",
+        "displayName": "Dark Ink"
+      }
+    },
+    "shadows": [
+      {
+        "name": "tag",
+        "value": "0 6px 12px -8px rgb(122 31 61 / 0.5)",
+        "purpose": "Hanging price tags."
+      },
+      {
+        "name": "card",
+        "value": "0 24px 40px -26px rgb(122 31 61 / 0.55)",
+        "purpose": "Thank-you card, gift note preview."
+      },
+      {
+        "name": "button",
+        "value": "0 12px 24px -14px rgb(122 31 61 / 0.8)",
+        "purpose": "Primary burgundy button glow."
+      },
+      {
+        "name": "window-lift",
+        "value": "0 22px 34px -22px rgb(122 31 61 / 0.45)",
+        "purpose": "Product window on hover."
+      }
+    ],
+    "motion": [
+      {
+        "name": "window-lift",
+        "value": "420ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Window lifts on hover/focus."
+      },
+      {
+        "name": "tag-swing",
+        "value": "520ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Price tag swings -6deg on hover."
+      },
+      {
+        "name": "tie",
+        "value": "520ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Bag count bow-tie bump on add."
+      },
+      {
+        "name": "unwrap",
+        "value": "900ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Hero gift box rises into place (always visible)."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Burgundy pill for the main action.",
+      "html": "<button class=\"ds-btn\">Shop gift sets</button>",
+      "css": ".ds-btn{padding:14px 28px;border:0;border-radius:9999px;background:#7a1f3d;color:#fff6ef;font:500 14px Poppins,sans-serif;box-shadow:0 12px 24px -14px rgb(122 31 61/.8)}.ds-btn:hover{background:rgb(122 31 61/.9)}.ds-btn:focus-visible{outline:2px solid #b8325a;outline-offset:3px}"
+    },
+    {
+      "name": "Price Tag",
+      "kind": "custom",
+      "refersTo": "price-tag",
+      "description": "Cream gift tag on a champagne string.",
+      "html": "<span class=\"ds-tag\"><i></i>Rs. 1,450</span>",
+      "css": ".ds-tag{position:relative;display:inline-block;padding:10px 10px 4px;border:1px solid #d4af7f;border-radius:6px;background:#fff6ef;color:#7a1f3d;font:600 15px 'Playfair Display',serif}.ds-tag i{position:absolute;left:50%;top:3px;width:6px;height:6px;margin-left:-3px;border:1px solid #d4af7f;border-radius:50%;background:#fbe7ec}"
+    },
+    {
+      "name": "Product Window",
+      "kind": "card",
+      "refersTo": "product-window",
+      "description": "Arched blush window with a champagne inner arch.",
+      "html": "<div class=\"ds-win\"><span></span></div>",
+      "css": ".ds-win{position:relative;width:180px;aspect-ratio:4/5;border-radius:999px 999px 18px 18px;background:#fbe7ec;box-shadow:inset 0 0 0 1px #ecd8d2}.ds-win span{position:absolute;inset:5%;border:1px solid rgb(212 175 127/.6);border-radius:999px 999px 14px 14px}"
+    },
+    {
+      "name": "Outline Add Button",
+      "kind": "button",
+      "refersTo": "button-add",
+      "description": "Quiet add-to-bag under each window.",
+      "html": "<button class=\"ds-add\">+ Add to bag</button>",
+      "css": ".ds-add{height:40px;padding:0 16px;border:1px solid #7a1f3d;border-radius:9999px;background:transparent;color:#7a1f3d;font:500 13px Poppins,sans-serif}.ds-add:hover{background:#7a1f3d;color:#fff6ef}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Gift Boutique",
+    "keyCharacteristics": [
+      "Cream paper, burgundy Playfair, italic rose accents, Poppins for everything practical.",
+      "Arched windows for products and collections; price on a hanging gift tag.",
+      "Champagne used only as foil: hairlines, the knot, sparkles and tag strings.",
+      "Product illustrations re-toned to the brand palette until real photos arrive.",
+      "One satin-ribbon moment: the gift box in the hero and the ribbon edge on the gift-set band."
+    ],
+    "rules": [
+      {
+        "name": "The Foil Rule",
+        "body": "Champagne is decoration (lines, knots, sparkles), never body text.",
+        "section": "colors"
+      },
+      {
+        "name": "The Honest Badge Rule",
+        "body": "Badges state only real data: Only 3 left, Our pick, Back soon.",
+        "section": "colors"
+      },
+      {
+        "name": "The Glyph-Marks-WhatsApp Rule",
+        "body": "Every control that opens WhatsApp carries the WhatsApp glyph. Storefront WhatsApp actions are burgundy primary pills; green stays in the admin dashboard.",
+        "section": "colors"
+      },
+      {
+        "name": "The One-Italic Rule",
+        "body": "Each heading italicises at most one phrase, in Rose Ink.",
+        "section": "typography"
+      },
+      {
+        "name": "The No-Eyebrow Rule",
+        "body": "No small caps labels above headings.",
+        "section": "typography"
+      },
+      {
+        "name": "The Unwrap Rule",
+        "body": "Motion is soft and slow; content always visible by default; off under reduced motion.",
+        "section": "elevation"
+      }
+    ]
+  }
+}
